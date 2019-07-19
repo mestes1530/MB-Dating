@@ -12,8 +12,9 @@ router.get('/', async (req, res) => {
 
 router.get('/profile',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    res.send(req.user.username);    
+  async (req, res) => {
+    const user = await User.findOne({_id: req.user._id}).populate('profile');
+    res.send(user.profile);
   }
 );
 
@@ -34,11 +35,9 @@ router.post('/follow/:_id',
   async (req, res) => {
     const { _id } = req.params;
     const followedUser = await User.findOne({ _id });
-
     if(followedUser) {
       req.user.following.push(followedUser._id);
       await req.user.save();
-      
       res.sendStatus(200)
     } else {
       res.sendStatus(404)
@@ -47,9 +46,7 @@ router.post('/follow/:_id',
 
 router.get('/:_id', async (req, res) => {
   const { _id } = req.params;
-
   const user = await User.findOne({ _id });
-
   if(user) {
     res.send(user);
   } else {

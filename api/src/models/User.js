@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
-const mongooseHidden = require('mongoose-hidden');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = mongoose.Schema({
   username: String,
+  // age: Number,
+  // gender: String,
+  personality: {type: String, default: ''},
   passwordHash: {
     type: String,
     hideJSON: true
   },
+  // profile: {
+  //   type: ObjectId,
+  //   ref: 'Profile',
+  // },
   following: [ObjectId],
 }, {
   timestamps: true,
@@ -16,6 +22,12 @@ const userSchema = mongoose.Schema({
   }
 });
 
+userSchema.virtual('profile', {
+  ref: "Profile",
+  localField: "_id",
+  foreignField: "user",
+  justOne: true
+})
 
 const User = mongoose.model('User', userSchema);
 

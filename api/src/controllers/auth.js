@@ -5,11 +5,12 @@ const { Router } = require('express');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 const router = Router();
 
 router.post('/sign-up', [
-  check(['username', 'password', 'passwordConfirm']).exists(),
+  check(['username', 'password', 'passwordConfirm', 'personality']).exists(),
 ], async (req, res) => {
   const errors = validationResult(req);
   
@@ -19,7 +20,7 @@ router.post('/sign-up', [
     return res.status(422).send({ errors: errors.array() });
   }
 
-  const { username, password, passwordConfirm } = req.body;
+  const { username, personality, password, passwordConfirm } = req.body;
 
   const userExists = await User.findOne({ username });
 
@@ -36,10 +37,17 @@ router.post('/sign-up', [
 
   const user = new User({
     username,
+    personality,
     passwordHash,
   });
 
   try {
+    await user.save();
+    const profile = new Profile({
+      user: user._id
+    });
+    await profile.save();
+    user.profile = profile;
     await user.save();
     res.send(user);
   } catch(error) {
@@ -52,7 +60,7 @@ router.post('/login',
   (req, res) => {
     const token = jwt.sign(
       {
-        email: req.user.username,
+        username: req.user.username,
         _id: req.user._id,
       }, 
       'CHANGEMEPLEASE!',
