@@ -5,9 +5,10 @@ const Match = require('../models/Match');
 
 const router = Router();
 
+// Don't need this since Profile keeps track of matches
 router.get('/', async (req, res) => {
-    const matches = await Match.find();
-    res.send(matches);
+    // const matches = await Match.find();
+    // res.send(matches);
 });
 
 router.get('/:_id',

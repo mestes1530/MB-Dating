@@ -2,6 +2,8 @@ const passport = require('passport');
 const { Router } = require('express');
 
 const User = require('../models/User');
+const Match = require('../models/Match');
+
 
 const router = Router();
 
@@ -13,8 +15,11 @@ router.get('/', async (req, res) => {
 router.get('/profile',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const user = await User.findOne({_id: req.user._id}).populate('profile');
-    res.send(user.profile);
+    const user = await User.findOne({_id: req.user._id}).populate({
+      path: 'profile',
+    });
+    const matches = await Match.find({userOne: user._id});
+    res.send({user, matches});
   }
 );
 
@@ -27,6 +32,28 @@ router.patch('/profile',
     });
     await req.user.save();
     res.send(req.user);
+  }
+);
+
+// Find users within 1000 meters of signing in user 
+router.get('/near', 
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const [lng, lat] = [req.query.lng || 0, req.query.lat || 0]
+
+    const results = await User.find({
+      location: {
+       $near: {
+        $maxDistance: 1000,
+        $geometry: {
+         type: "Point",
+         coordinates: [lng, lat]
+        }
+       }
+      }
+     })
+
+     res.send(results);
   }
 );
 
@@ -53,6 +80,5 @@ router.get('/:_id', async (req, res) => {
     res.sendStatus(404);
   }
 });
-
 
 module.exports = router;

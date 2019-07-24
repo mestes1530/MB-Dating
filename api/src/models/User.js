@@ -10,12 +10,12 @@ const userSchema = mongoose.Schema({
     type: String,
     hideJSON: true
   },
-  // profile: {
-  //   type: ObjectId,
-  //   ref: 'Profile',
-  // },
   following: [ObjectId],
-}, {
+  location: {
+    coordinates: [],
+   },
+}, 
+{
   timestamps: true,
   toJSON: {
     virtuals: true,
@@ -29,6 +29,8 @@ userSchema.virtual('profile', {
   justOne: true
 })
 
+// Added for location
+userSchema.index({location: "2dsphere"});
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

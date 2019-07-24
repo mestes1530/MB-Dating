@@ -10,7 +10,7 @@ const Profile = require('../models/Profile');
 const router = Router();
 
 router.post('/sign-up', [
-  check(['username', 'password', 'passwordConfirm', 'personality']).exists(),
+  check(['username', 'personality', 'password', 'passwordConfirm']).exists(),
 ], async (req, res) => {
   const errors = validationResult(req);
   

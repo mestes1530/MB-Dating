@@ -6,12 +6,19 @@ const profileSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'User',
     },
-    likes: {type: String, default: 'Likes test worked'},
-    dislikes: {type: String, default: 'Dislikes test worked'},
+    likes: {type: String, default: 'Things the user likes.'},
+    dislikes: {type: String, default: 'Things the user dislikes.'},
 }, {
     timestamps: true,
 }
 );
+
+profileSchema.virtual('matches', {
+    ref: 'Match',
+    localField: '_id',
+    foreignField: 'userOne',
+    justOne: false,
+});
 
 const Profile = mongoose.model('Profile', profileSchema);
 
