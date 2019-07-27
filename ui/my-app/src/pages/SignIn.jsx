@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from "axios";
 
 import Login from '../components/Login';
-import SignUp from '../components/SignUp';
 
 
 const SignIn = () => {
+
     return (
         <div>
             <Login />

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useGlobal } from 'reactn';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import axios from "axios";
 import './App.css';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Create from './pages/Create';
+import Logout from './components/Logout';
 
 function App() {
   const [token, setToken] = useGlobal('token');
@@ -15,8 +16,8 @@ function App() {
       <div className="App">
         {(token) ? (
           <div>
-            <h1>Succsessfully Logged in!</h1>
             <Link to="/">Home</Link>
+            <Logout />
           </div>
         ) : (
           <div>

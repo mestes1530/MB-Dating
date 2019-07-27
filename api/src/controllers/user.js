@@ -35,7 +35,20 @@ router.patch('/profile',
   }
 );
 
-// Find users within 1000 meters of signing in user 
+
+// Seach function that filters users based on conditions
+router.post('/search/:type', 
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const type = req.params.type;
+    const results = await User.find({
+      personality: type,
+    })
+    res.send(results);
+  }
+);
+
+// Find users within 1000 meters of signing in user (WORKING)
 router.get('/near', 
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -52,10 +65,12 @@ router.get('/near',
        }
       }
      })
-
      res.send(results);
   }
 );
+
+
+
 
 router.post('/follow/:_id', 
   passport.authenticate('jwt', { session: false }),

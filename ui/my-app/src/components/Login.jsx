@@ -1,8 +1,13 @@
 import React, { useState, useGlobal } from 'reactn';
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
     const [token, setToken] = useGlobal('token');
+    const [profile, setProfile] = useGlobal('profile');
+
+    
+    const [loggedIn, setLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
@@ -11,11 +16,21 @@ const Login = () => {
       e.preventDefault();
       try {
         setError(false);
-        const { data } = await axios.post('http://localhost:5000/auth/login', {
+        let token = await axios.post('http://localhost:5000/auth/login', {
           username,
           password
         });
-        setToken(data.token);
+        setToken(token.data.token);
+
+        let profile = await axios.get('http://localhost:5000/user/profile', {
+          headers: {
+            'Authorization': 'Bearer ' + token.data.token 
+          }
+        })
+
+        setProfile(profile.data);
+
+        setLoggedIn(true);
       } catch(e) {
         setError(true);
       }
@@ -23,6 +38,7 @@ const Login = () => {
   
     return (
       <div>
+        {loggedIn && <Redirect to="/" />}
         <h1>Login component</h1>
         {error && <div>Failed to login!</div>}
         <form onSubmit={handleLogin}>

@@ -3,14 +3,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = mongoose.Schema({
   username: String,
-  // age: Number,
-  // gender: String,
+  age: Number,
+  gender: String,
   personality: {type: String, default: ''},
   passwordHash: {
     type: String,
     hideJSON: true
   },
-  following: [ObjectId],
   location: {
     coordinates: [],
    },

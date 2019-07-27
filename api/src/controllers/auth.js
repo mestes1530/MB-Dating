@@ -10,17 +10,15 @@ const Profile = require('../models/Profile');
 const router = Router();
 
 router.post('/sign-up', [
-  check(['username', 'personality', 'password', 'passwordConfirm']).exists(),
+  check(['username', 'age', 'gender', 'personality', 'password', 'passwordConfirm']).exists(),
 ], async (req, res) => {
   const errors = validationResult(req);
-  
-  console.log("called sign-up post");
 
   if (!errors.isEmpty()) {
     return res.status(422).send({ errors: errors.array() });
   }
 
-  const { username, personality, password, passwordConfirm } = req.body;
+  const { username, age, gender, personality, password, passwordConfirm } = req.body;
 
   const userExists = await User.findOne({ username });
 
@@ -37,6 +35,8 @@ router.post('/sign-up', [
 
   const user = new User({
     username,
+    age,
+    gender,
     personality,
     passwordHash,
   });

@@ -11,12 +11,10 @@ const User = () => {
         try {
           setError(true);
           const { data } = await axios.get('http://localhost:5000/user');
-          console.log(data); //logs all the users
         } catch(e) {
           setError(false);
         }
       }
-  
       displayUser();
     }, [token]);
      
