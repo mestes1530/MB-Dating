@@ -15,7 +15,6 @@ const Logout = () => {
     return (
       <div>
         {loggedOut && <Redirect to="/SignIn" />}
-        <h1>Logout</h1>
         <button onClick={logOut}>Logout</button>
       </div>
     );

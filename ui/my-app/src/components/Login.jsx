@@ -39,12 +39,11 @@ const Login = () => {
     return (
       <div>
         {loggedIn && <Redirect to="/" />}
-        <h1>Login component</h1>
         {error && <div>Failed to login!</div>}
         <form onSubmit={handleLogin}>
           <input type='text' placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>
           <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
-          <button>Submit</button>
+          <button>Login</button>
         </form>
       </div>
     );

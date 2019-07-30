@@ -21,7 +21,7 @@ const User = () => {
   
     return (
       <div>
-        <h1>Username</h1>
+        <h1>User Component</h1>
       </div>
      )
   }

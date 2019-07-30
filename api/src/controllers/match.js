@@ -2,22 +2,21 @@ const passport = require('passport');
 const { Router } = require('express');
 
 const Match = require('../models/Match');
+const User = require('../models/User');
 
 const router = Router();
-
-// Don't need this since Profile keeps track of matches
-router.get('/', async (req, res) => {
-    // const matches = await Match.find();
-    // res.send(matches);
-});
 
 router.get('/:_id',
     passport.authenticate('jwt', {session: false}), 
     async (req, res) => {
         const { _id } = req.params;
-        console.log(_id);
-        //const matches = await Match.find();
-        res.send(_id);
+        // console.log(_id);
+        try {
+            const match = await Match.findOne({_id});
+            res.send(match);
+        } catch(e) {
+            res.send(404);
+        }
 });
 
 router.post('/',
@@ -33,6 +32,18 @@ router.post('/',
             console.error(e);
             res.sendStatus(500);
         }
+});
+
+
+// New function that finds matches w/ specific personality types
+router.get('/search/:type', 
+    passport.authenticate('jwt', {session: false}),
+    async (req, res) => {
+        const {type} = req.params;
+        const users = await User.find({
+            personality: type
+        })
+        res.send(users);
 });
 
 module.exports = router;
