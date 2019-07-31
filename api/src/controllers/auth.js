@@ -18,7 +18,7 @@ router.post('/sign-up', [
     return res.status(422).send({ errors: errors.array() });
   }
 
-  const { username, age, gender, personality, password, passwordConfirm } = req.body;
+  const { username, age, gender, email, personality, password, passwordConfirm } = req.body;
 
   const userExists = await User.findOne({ username });
 
@@ -37,6 +37,7 @@ router.post('/sign-up', [
     username,
     age,
     gender,
+    email,
     personality,
     passwordHash,
   });

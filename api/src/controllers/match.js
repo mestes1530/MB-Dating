@@ -19,6 +19,8 @@ router.get('/:_id',
         }
 });
 
+
+
 router.post('/',
     passport.authenticate('jwt', {session: false}),
     async (req, res) => {
@@ -40,6 +42,8 @@ router.get('/search/:type',
     passport.authenticate('jwt', {session: false}),
     async (req, res) => {
         const {type} = req.params;
+
+        console.log(type, req.user)
         const users = await User.find({
             personality: type
         })

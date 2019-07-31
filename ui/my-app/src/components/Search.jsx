@@ -3,11 +3,13 @@ import axios from "axios";
 
 import { Button } from 'react-bootstrap';
 
+
 const Search = () => {
     const [token, setToken] = useGlobal('token');
     const [user, setUser] = useState(null);
     const [error, setError] = useState(false);
-    const [personality, setPersonality] = useState('');
+    const [matches, setMatches] = useState([]);
+    const [personality, setPersonality] = useState('ENTJ');
 
 
     const handleChange = async (e) => {
@@ -18,16 +20,37 @@ const Search = () => {
         e.preventDefault();
         try {
             setError(false);
-            const { data } = await axios.get('http://localhost:5000/user');
-            //console.log(JSON.stringify(data));
+            const { data } = await axios.get('http://localhost:5000/match/search/' + personality, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
+            console.log(data)
+            setMatches(data)
         } catch (e) {
             setError(true);
         }
     }
 
+    // const findNearBy = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         setError(false);
+    //         const { data } = await axios.get('http://localhost:5000/match/search/near/', {
+    //             headers: {
+    //                 Authorization: "Bearer" + token
+    //             }
+    //         })
+    //         console.log(data);
+    //         setMatches(data);
+    //     } catch(e) {
+    //         setError(true);
+    //     }
+    // }
+
     return (
         <div>
-            <h1>Search Page</h1>
+            <h1>Browse Profiles</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Pick a personality type:
@@ -50,12 +73,39 @@ const Search = () => {
                         <option value='ISFP'>ISFP</option>
                     </select>
                 </label>
-                <Button variant="info">Submit</Button>
+                <Button variant="info" size="sm" type="submit">Submit</Button>
             </form>
-            <p>{personality}</p>
             <hr></hr>
+            {/* <form onSubmit={findNearBy}>
+                <Button variant="info" size="sm" type="submit">Find Near Me</Button>
+            </form> */}
             <div className="FlexBox">
-                <div className="FlexItem"></div>
+                {matches.map((match) => (
+                    <div className="FlexItem">
+                        <table>
+                            <tr>
+                                <th>Username:</th>
+                                <td>{match.username}</td>
+                            </tr>
+                            <tr>
+                                <th>MB Type:</th>
+                                <td>{match.personality}</td>
+                            </tr>
+                            <tr>
+                                <th>Age:</th>
+                                <td>{match.age}</td>
+                            </tr>
+                            <tr>
+                                <th>Gender:</th>
+                                <td>{match.gender}</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>{match.email}</td>
+                            </tr>
+                        </table>
+                    </div>
+                ))}
             </div>
         </div>
     );

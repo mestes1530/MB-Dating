@@ -16,6 +16,8 @@ const Login = () => {
       e.preventDefault();
       try {
         setError(false);
+
+        console.log(username, password)
         let token = await axios.post('http://localhost:5000/auth/login', {
           username,
           password
@@ -27,10 +29,10 @@ const Login = () => {
             'Authorization': 'Bearer ' + token.data.token 
           }
         })
-
+        
         setProfile(profile.data);
-
         setLoggedIn(true);
+
       } catch(e) {
         setError(true);
       }
@@ -38,11 +40,11 @@ const Login = () => {
   
     return (
       <div>
-        {loggedIn && <Redirect to="/" />}
+        {loggedIn && <Redirect to="/Profile" />}
         {error && <div>Failed to login!</div>}
         <form onSubmit={handleLogin}>
-          <input type='text' placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>
-          <input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
+          <input type='text' value={username} placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>
+          <input type='password' value={password} placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
           <button>Login</button>
         </form>
       </div>

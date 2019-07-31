@@ -1,70 +1,67 @@
 import React, { useState, useEffect, useGlobal } from 'reactn';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import axios from "axios";
 
-import Logout from '../components/Logout';
-import User from '../components/User';
+import Login from '../components/Login';
+import SignUp from '../components/SignUp';
 import Edit from '../components/Edit';
+import { Button } from 'react-bootstrap';
 
-import Search from '../components/Search';
 
 const Profile = () => {
     const [token, setToken] = useGlobal('token');
-    const [user, setUser] = useState(null);
-    const [matches, setMatches] = useState([]);
-    const [error, setError] = useState(false);
+    const [profile, setProfile] = useGlobal('profile');
     const [editing, setEditing] = useState(false);
 
-    useEffect(() => {
-      const renderProfile = async (e) => {
-        try {
-          setError(false);
-          const { data } = await axios.get('http://localhost:5000/user/profile/', {
-            headers: {
-              "Authorization": "Bearer " + token
-            }
-          });
-          setUser(data.user);
-          setMatches(data.matches);
-        } catch (e) {
-          setError(true);
-        }
-      }
-      renderProfile();
-    }, [token]);
-
-    if(user) {
-      console.log(user);
+    if(token && profile) {
       return (
         <div className='ContentBox'>
-          <h1>Profile Page</h1>
-          <h2>{user.username}</h2>
-          <h3>{user.personality}</h3>
+          <h1>{profile.user.username}</h1>
           <hr></hr>
           <div>
+            <center>
             <table>
               <tr>
+                <th>MB Type:</th>
+                <td>{profile.user.personality}</td>
+              </tr>
+              <tr>
                 <th>Age:</th>
-                <ti>{user.age}</ti>
+                <td>{profile.user.age}</td>
               </tr>
               <tr>
                 <th>Gender:</th>
-                <ti>{user.gender}</ti>
+                <td>{profile.user.gender}</td>
+              </tr>
+              <tr>
+                <th>Email:</th>
+                <td>{profile.user.email}</td>
               </tr>
             </table>
+            </center>
+            <br></br>
           </div>
-          <div>{matches.map((match) => (
+          <div>{profile.matches.map((match) => (
             <div>{JSON.stringify(match)}</div>
           ))}</div>
-          <Logout />
-          <User />
-          <Edit />
-          <Link to="/Browse">Browse</Link>
+          <Button variant="info" onClick={() => setEditing(!editing)}>Edit Profile</Button>
+          {(editing) ? (
+            <div>
+              <Edit />
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <br></br>
         </div>
       )
     } else {
       return (
-        <div>Login to start</div>
+        <div>
+          <h3>Login</h3>
+          <Login />
+          <hr></hr>
+          <h3>Sign Up</h3>
+          <SignUp />
+        </div>
       )
     }
   }

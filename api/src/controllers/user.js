@@ -31,7 +31,12 @@ router.patch('/profile',
       passwordHash: undefined,
     });
     await req.user.save();
-    res.send(req.user);
+    const user = await User.findOne({_id: req.user._id}).populate({
+      path: 'profile',
+    });
+    const matches = await Match.find({userOne: user._id});
+
+    res.send({user, matches});
   }
 );
 

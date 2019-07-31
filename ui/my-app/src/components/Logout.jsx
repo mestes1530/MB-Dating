@@ -5,10 +5,13 @@ import { homedir } from 'os';
 
 const Logout = () => {
     const [token, setToken] = useGlobal('token');
+    const [profile, setProfile] = useGlobal('profile');
+
     const [loggedOut, setLoggedOut] = useState(false);
 
     const logOut = () => {
       setToken(null)
+      setProfile(null)
       setLoggedOut(true)
     }
 

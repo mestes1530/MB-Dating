@@ -8,22 +8,46 @@ body {
   background-color: orange;
 }
 .FlexBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2em;
+}
+@media only screen and (max-width: 768px) {
+  .FlexBox {
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+}
+@media only screen and (max-width: 420px) {
+  .FlexBox {
+    display: flex;
+
+  }
+}
+.Card {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.FlexItem {
+  margin: 2em; 
 }
 .App {
   background-color: #5BC0DE;
-  border-style: outset;
+  border-style: inset;
 }
 .ContentBox {
   background-color: rgba(250, 250, 250, 0.7);
   margin: 30px;
   border-style: outset;
 }
-table {
-  text-align: left;
-  border: solid;
+.CardField {
+  margin: 20px;
+  padding: 20px;
+}
+table, th, td {
+  text-align: center;
+  border-style: double;
+  background-color: rgba(91, 192, 222, 0.5);
 }
 input {
   margin: 5px;
