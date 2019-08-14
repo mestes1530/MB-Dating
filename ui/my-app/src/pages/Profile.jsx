@@ -3,7 +3,7 @@ import React, { useState, useEffect, useGlobal } from 'reactn';
 import Login from '../components/Login';
 import SignUp from '../components/SignUp';
 import Edit from '../components/Edit';
-import { Button } from 'react-bootstrap';
+import { Button, Badge } from 'react-bootstrap';
 
 
 const Profile = () => {
@@ -61,6 +61,12 @@ const Profile = () => {
           <hr></hr>
           <h3>Sign Up</h3>
           <SignUp />
+          <hr></hr>
+          <div>
+            <h3><a href="https://www.16personalities.com/free-personality-test">
+              <Badge variant="info">Take the Myers Briggs personality test</Badge>
+            </a></h3>
+          </div>
         </div>
       )
     }

@@ -24,14 +24,16 @@ function App() {
             <Nav className="mr-auto">
               <Nav.Link href="/Profile">Profile</Nav.Link>
               <Nav.Link href="/Browse">Browse</Nav.Link>
-              <Nav.Link href="/"> Home</Nav.Link>
-              {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <Nav.Link href="/">Personalities</Nav.Link>
+              <NavDropdown title="Compatibility" id="collasible-nav-dropdown">
+                <NavDropdown.Item href="https://www.bustle.com/p/these-are-the-3-most-compatible-myers-briggs-types-for-you-based-on-your-myers-briggs-8455807">Bustle</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.personalityrelationships.net/">Relationships</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.truity.com/test/which-personality-type-your-love-match">Truity</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.massmatch.com/MBTI-2.php">MassMatch</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.dreamsaroundtheworld.com/wp-content/uploads/2017/01/Myers_Briggs_Type_Compatibility_Chart.pdf">Chart</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown> */}
+                <NavDropdown.Item href="https://www.16personalities.com/personality-types">16 Personalities</NavDropdown.Item>
+              </NavDropdown>
             </Nav>
             <Nav>
             {(token) ? (
